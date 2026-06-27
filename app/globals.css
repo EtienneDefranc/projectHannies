@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* ─── Custom theme tokens ─── */
+@theme inline {
+  /* Brand color palette */
+  --color-choco-dark:    #2C1503;
+  --color-choco:        #3D1C02;
+  --color-choco-mid:    #7B3F00;
+  --color-caramel:      #C8972A;
+  --color-caramel-light:#E0B54C;
+  --color-cream:        #F5E6C8;
+  --color-cream-light:  #FFF8F0;
+  --color-ivory:        #FDFAF4;
+
+  /* Fonts */
+  --font-display: var(--font-playfair);
+  --font-body:    var(--font-inter);
+
+  /* Background / foreground */
+  --color-background: var(--color-ivory);
+  --color-foreground: var(--color-choco);
+}
+
+/* ─── Base styles ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-choco);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Heading font ─── */
+h1, h2, h3 {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+/* ─── Utility: gradient brand ─── */
+.gradient-gold {
+  background: linear-gradient(135deg, #C8972A 0%, #E0B54C 50%, #C8972A 100%);
+}
+
+.gradient-choco {
+  background: linear-gradient(160deg, #2C1503 0%, #3D1C02 40%, #7B3F00 100%);
+}
+
+/* ─── WhatsApp pulse ring ─── */
+@keyframes wa-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+  70%  { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+.wa-pulse {
+  animation: wa-pulse 2s infinite;
+}
+
+/* ─── Card hover lift ─── */
+.card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(44, 21, 3, 0.18);
+}
+
+/* ─── Section fade-in (uses Intersection Observer) ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Accordion ─── */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.accordion-content.open {
+  max-height: 300px;
+}
