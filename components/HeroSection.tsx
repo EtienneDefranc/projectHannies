@@ -18,8 +18,8 @@ export default function HeroSection() {
       {/* ── Imagen de fondo (foto real de alfajores) ── */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/alfajores-photo.jpg"
-          alt="Alfajores artesanales Hannies recién hechos"
+          src="/hero-alfajor.png"
+          alt="Alfajor artesanal con relleno de dulce de leche"
           fill
           priority
           className="object-cover object-center"
