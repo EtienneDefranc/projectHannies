@@ -44,7 +44,22 @@ const faqs = [
     answer:
       "Nuestros alfajores son completamente frescos y artesanales. Se mantienen en óptimas condiciones durante 3-5 días guardados en un lugar fresco y seco (no en refrigerador). ¡Aunque difícilmente duran tanto!",
   },
+  {
+    id: "shipping-cost",
+    icon: "fi fi-rr-coins",               // Monedas — costo de envío
+    question: "¿Cuánto cuesta el envío?",
+    answer:
+      "El costo de envío es proporcional a la distancia y al tamaño del pedido. Al confirmar tu pedido por WhatsApp, te cotizamos el envío según tu ubicación exacta y llegamos a un acuerdo antes de procesar el pedido. ¡Siempre buscamos la opción más conveniente para ti!",
+  },
+  {
+    id: "custom-box",
+    icon: "fi fi-rr-box-open",            // Caja — pedidos personalizados
+    question: "¿Puedo pedir una caja personalizada?",
+    answer:
+      "¡Claro que sí! Puedes solicitar cajas con la cantidad exacta que necesites y, cuando tengamos más sabores disponibles, elegir la combinación perfecta. Son ideales para eventos, regalos corporativos o antojos especiales. Escríbenos por WhatsApp y armamos tu caja a la medida.",
+  },
 ];
+
 
 export default function LogisticsSection() {
   const [openId, setOpenId] = useState<string | null>(null);

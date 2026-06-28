@@ -165,11 +165,17 @@ export default function ProductsSection() {
 
                     {/* Ahorro (solo si hay descuento) */}
                     {savings > 0 && (
-                      <p className="text-xs text-green-600 font-semibold mb-5">
+                      <p className="text-xs text-green-600 font-semibold mb-2">
                         Ahorras ${savings.toFixed(2)}
                       </p>
                     )}
-                    {savings === 0 && <div className="mb-5" />}
+                    {savings === 0 && <div className="mb-2" />}
+
+                    {/* Aviso de envío */}
+                    <p className="text-[10px] text-[#7B3F00]/50 mb-5">
+                      <i className="fi fi-rr-truck-side mr-1" aria-hidden="true" />
+                      Envío se acuerda por WhatsApp
+                    </p>
 
                     {/* CTA */}
                     <a
@@ -236,8 +242,57 @@ export default function ProductsSection() {
           </div>
         )}
 
+        {/* ── Caja Personalizada ── */}
+        <div className="mt-16 reveal">
+          <div className="relative rounded-3xl overflow-hidden border-2 border-[#C8972A]/40 bg-gradient-to-br from-[#2C1503] to-[#7B3F00] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 shadow-2xl">
+            {/* Partículas decorativas */}
+            <div className="absolute top-4 right-6 text-[#C8972A]/10 text-9xl font-extrabold select-none pointer-events-none">
+              ✦
+            </div>
+
+            {/* Icono grande */}
+            <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 rounded-2xl bg-[#C8972A]/20 border border-[#C8972A]/40">
+              <i className="fi fi-rr-box-open text-4xl text-[#E0B54C] leading-none" aria-hidden="true" />
+            </div>
+
+            {/* Texto */}
+            <div className="flex-1 text-center md:text-left">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#C8972A] mb-2 block">
+                Pedido especial
+              </span>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-[#FFF8F0] mb-2">
+                Caja Personalizada
+              </h3>
+              <p className="text-[#F5E6C8]/80 text-sm leading-relaxed mb-1">
+                ¿Necesitas una cantidad diferente o una combinación especial? Armamos tu caja
+                a la medida: la cantidad exacta que quieras, perfecta para eventos,
+                reuniones o regalos corporativos.
+              </p>
+              <p className="text-[#E0B54C] text-xs font-semibold">
+                <i className="fi fi-rr-truck-side mr-1" aria-hidden="true" />
+                El costo de envío es proporcional y se acuerda contigo por chat antes de confirmar.
+              </p>
+            </div>
+
+            {/* CTA */}
+            <div className="flex-shrink-0">
+              <a
+                id="cta-custom-box"
+                href="https://wa.me/593983345792?text=%C2%A1Hola!%20Vengo%20de%20la%20p%C3%A1gina%20web%20y%20quiero%20pedir%20una%20caja%20personalizada%20de%20alfajores%20%F0%9F%8D%AA%20%C2%BFMe%20puedes%20dar%20informaci%C3%B3n%3F"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 gradient-gold text-[#2C1503] font-bold text-sm px-7 py-3.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 whitespace-nowrap"
+                aria-label="Pedir caja personalizada por WhatsApp"
+              >
+                <i className="fi fi-brands-whatsapp text-base leading-none" aria-hidden="true" />
+                Personalizar mi caja
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Nota artesanal */}
-        <div className="flex items-center justify-center gap-2 mt-12 reveal">
+        <div className="flex items-center justify-center gap-2 mt-10 reveal">
           <i className="fi fi-rr-heart text-[#C8972A] text-sm leading-none" aria-hidden="true" />
           <p className="text-center text-xs text-[#7B3F00]/50">
             Elaborados por manos artesanales con ingredientes frescos · Sin conservantes
