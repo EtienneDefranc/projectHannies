@@ -6,7 +6,9 @@
  */
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { WA_LINK } from "@/lib/constants";
+
 
 const navLinks = [
   { label: "Inicio",    href: "#inicio" },
@@ -37,10 +39,20 @@ export default function Navbar() {
         className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4"
         aria-label="Navegación principal"
       >
-        {/* ── Logo ── */}
-        <a href="#inicio" className="text-2xl font-extrabold text-[#FFF8F0] tracking-tight">
-          Hannies
-          <span className="text-[#C8972A]">.</span>
+        {/* ── Logo con imagen ── */}
+        <a href="#inicio" className="flex items-center gap-2 group">
+          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#C8972A]/40 flex-shrink-0">
+            <Image
+              src="/logo.jpg"
+              alt="Logo Hannies"
+              fill
+              className="object-cover object-center"
+              sizes="36px"
+            />
+          </div>
+          <span className="text-xl font-extrabold text-[#FFF8F0] tracking-tight group-hover:text-[#E0B54C] transition-colors duration-200">
+            Hannies<span className="text-[#C8972A]">.</span>
+          </span>
         </a>
 
         {/* ── Links desktop ── */}

@@ -6,6 +6,8 @@
  * Usa iconos de Flaticon UIcons en lugar de emojis.
  */
 
+import Image from "next/image";
+
 export default function FooterSection() {
   const year = new Date().getFullYear();
 
@@ -18,16 +20,27 @@ export default function FooterSection() {
       <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
 
         {/* ── Logo / Nombre ── */}
-        <div className="reveal">
-          <p className="text-xs uppercase tracking-[0.25em] text-[#C8972A] mb-2 font-semibold">
-            Repostería Artesanal
-          </p>
-          <h2 className="text-5xl md:text-6xl font-extrabold text-[#FFF8F0] tracking-tight">
-            Hannies
-          </h2>
-          <p className="text-[#F5E6C8]/60 text-sm mt-2">
-            Hecho con amor, para los que aprecian lo bueno de verdad.
-          </p>
+        <div className="reveal flex flex-col items-center gap-3">
+          <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-[#C8972A]/40 shadow-xl">
+            <Image
+              src="/logo.jpg"
+              alt="Logo Hannies Alfajores"
+              fill
+              className="object-cover object-center"
+              sizes="80px"
+            />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.25em] text-[#C8972A] mb-1 font-semibold">
+              Repostería Artesanal
+            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#FFF8F0] tracking-tight">
+              Hannies
+            </h2>
+            <p className="text-[#F5E6C8]/60 text-sm mt-1">
+              Hecho con amor, para los que aprecian lo bueno de verdad.
+            </p>
+          </div>
         </div>
 
         {/* ── Separador decorativo ── */}

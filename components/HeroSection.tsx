@@ -2,7 +2,7 @@
 
 /**
  * HeroSection — Primera impresión visual del negocio.
- * Usa iconos de Flaticon UIcons (CDN cargado en layout.tsx).
+ * Usa la foto real de los alfajores como fondo.
  */
 
 import Image from "next/image";
@@ -15,22 +15,34 @@ export default function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       aria-label="Sección principal"
     >
-      {/* ── Imagen de fondo ── */}
+      {/* ── Imagen de fondo (foto real de alfajores) ── */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/hero-alfajor.png"
-          alt="Alfajor artesanal con relleno de dulce de leche"
+          src="/alfajores-photo.jpg"
+          alt="Alfajores artesanales Hannies recién hechos"
           fill
           priority
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Overlay degradado para legibilidad */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2C1503]/80 via-[#3D1C02]/70 to-[#2C1503]/90" />
+        {/* Overlay degradado cálido para legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2C1503]/75 via-[#3D1C02]/65 to-[#2C1503]/88" />
       </div>
 
       {/* ── Contenido principal ── */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 py-24 max-w-2xl mx-auto">
+
+        {/* Logo */}
+        <div className="mb-6 w-24 h-24 md:w-28 md:h-28 relative rounded-full overflow-hidden bg-[#FFF8F0] shadow-2xl border-2 border-[#C8972A]/40">
+          <Image
+            src="/logo.jpg"
+            alt="Logo Hannies Alfajores"
+            fill
+            className="object-cover object-center"
+            sizes="112px"
+            priority
+          />
+        </div>
 
         {/* Badge "Artesanal" con icono de estrella */}
         <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#E0B54C] border border-[#C8972A]/50 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm bg-[#2C1503]/30">
@@ -50,7 +62,7 @@ export default function HeroSection() {
           Alfajores hechos con amor, para los que saben apreciar lo bueno de verdad.
         </p>
 
-        {/* Zona de cobertura con icono de marcador */}
+        {/* Zona de cobertura */}
         <div className="flex items-center gap-2 text-sm text-[#E0B54C] font-medium mb-10">
           <i className="fi fi-rr-marker text-base leading-none" aria-hidden="true" />
           <span>Servicio exclusivo en <strong>Samborondón</strong> y <strong>Guayaquil</strong></span>
@@ -65,7 +77,6 @@ export default function HeroSection() {
           className="inline-flex items-center gap-3 gradient-gold text-[#2C1503] font-bold text-lg px-8 py-4 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-transform duration-200"
           aria-label="Pedir ahora por WhatsApp"
         >
-          {/* Icono de WhatsApp de Flaticon Brands */}
           <i className="fi fi-brands-whatsapp text-2xl leading-none" aria-hidden="true" />
           Pedir ahora
         </a>

@@ -1,51 +1,48 @@
 "use client";
 
 /**
- * ProductsSection — Tarjetas de productos con precios y CTA individual.
- * Usa iconos de Flaticon UIcons en lugar de emojis.
+ * ProductsSection — Tarjetas de productos generadas dinámicamente
+ * desde el catálogo en lib/data/alfajores.ts.
+ *
+ * Para agregar un nuevo sabor: edita lib/data/alfajores.ts → ALFAJOR_FLAVORS.
  */
 
 import Image from "next/image";
 import { WA_LINK } from "@/lib/constants";
+import {
+  ALFAJOR_FLAVORS,
+  PACK_OPTIONS,
+  calcPackPrice,
+} from "@/lib/data/alfajores";
+import type { PackPrice } from "@/lib/data/types";
 
-/* ── Datos de los productos ── */
-const products = [
-  {
-    id: "unit",
-    icon: "fi fi-rr-cookie",            // Icono: galleta
-    label: "Unidad",
-    description: "Perfecto para probar y enamorarte.",
-    qty: "1 alfajor",
-    price: "$2.00",
-    badge: null,
-    waMessage:
-      "¡Hola! Vengo de la página web y quiero pedir 1 alfajor ($2.00)",
-  },
-  {
-    id: "box3",
-    icon: "fi fi-rr-gift",              // Icono: regalo
-    label: "Cajita x3",
-    description: "Ideal para compartir o regalar.",
-    qty: "3 alfajores",
-    price: "$5.50",
-    badge: "Más pedido",
-    waMessage:
-      "¡Hola! Vengo de la página web y quiero pedir la cajita de 3 alfajores ($5.50)",
-  },
-  {
-    id: "box6",
-    icon: "fi fi-rr-box-open",          // Icono: caja abierta
-    label: "Cajita x6",
-    description: "El regalo perfecto para toda ocasión.",
-    qty: "6 alfajores",
-    price: "$10.00",
-    badge: "Mejor valor",
-    waMessage:
-      "¡Hola! Vengo de la página web y quiero pedir la cajita de 6 alfajores ($10.00)",
-  },
-];
+/* ─── Genera los precios de cada presentación para un sabor ─── */
+function buildPackPrices(
+  flavor: (typeof ALFAJOR_FLAVORS)[0]
+): PackPrice[] {
+  return PACK_OPTIONS.map((pack) => {
+    const price = calcPackPrice(flavor.pricePerUnit, pack.qty, pack.id);
+    const savings =
+      Math.round((flavor.pricePerUnit * pack.qty - price) * 100) / 100;
+    return {
+      packOption: pack,
+      price,
+      savings,
+      waMessage: `¡Hola! Vengo de la página web y quiero pedir ${
+        pack.qty === 1
+          ? `1 alfajor de ${flavor.name}`
+          : `la cajita x${pack.qty} de alfajores de ${flavor.name}`
+      } ($${price.toFixed(2)})`,
+    };
+  });
+}
 
 export default function ProductsSection() {
+  /* Solo mostramos los sabores disponibles actualmente */
+  const available = ALFAJOR_FLAVORS.filter((f) => f.available);
+  /* Sabores "próximamente" para la sección de teaser */
+  const comingSoon = ALFAJOR_FLAVORS.filter((f) => !f.available);
+
   return (
     <section
       id="productos"
@@ -72,96 +69,175 @@ export default function ProductsSection() {
           Cada mordida es una experiencia de sabor genuino.
         </p>
 
-        {/* Nota de peso neto con icono de báscula */}
+        {/* Nota de peso neto */}
         <div className="flex justify-center mb-12 reveal">
           <div className="inline-flex items-center gap-2 bg-[#F5E6C8] border border-[#C8972A]/30 rounded-full px-5 py-2">
             <i className="fi fi-rr-scale text-[#C8972A] text-base leading-none" aria-hidden="true" />
             <p className="text-sm font-semibold text-[#7B3F00]">
-              Peso neto aprox: <span className="font-bold text-[#3D1C02]">60g</span> por unidad
+              Peso neto aprox:{" "}
+              <span className="font-bold text-[#3D1C02]">60g</span> por unidad
             </p>
           </div>
         </div>
 
-        {/* ── Imagen de productos ── */}
-        <div className="relative w-full h-52 md:h-72 rounded-3xl overflow-hidden mb-14 shadow-2xl reveal">
-          <Image
-            src="/products-alfajores.png"
-            alt="Presentaciones de alfajores Hannies: unidad, cajita x3 y cajita x6"
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, 900px"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2C1503]/60 via-transparent to-transparent" />
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center">
-            <p className="text-[#F5E6C8] text-sm font-semibold tracking-wide drop-shadow">
-              Rellenos de dulce de leche cremoso · Cubiertos de azúcar impalpable
-            </p>
-          </div>
-        </div>
+        {/* ── Un bloque por cada sabor disponible ── */}
+        {available.map((flavor) => {
+          const packs = buildPackPrices(flavor);
 
-        {/* ── Cards de productos ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <article
-              key={product.id}
-              id={`product-${product.id}`}
-              className="relative bg-[#FFF8F0] border border-[#F5E6C8] rounded-3xl p-7 flex flex-col items-center text-center shadow-md card-lift reveal"
-              aria-label={`Producto: ${product.label}`}
-            >
-              {/* Badge especial */}
-              {product.badge && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-gold text-[#2C1503] text-xs font-bold px-4 py-1 rounded-full shadow-sm whitespace-nowrap">
-                  {product.badge}
-                </span>
+          return (
+            <div key={flavor.id} className="mb-20">
+              {/* Foto real del producto */}
+              {flavor.image && (
+                <div className="relative w-full h-56 md:h-80 rounded-3xl overflow-hidden mb-10 shadow-2xl reveal">
+                  <Image
+                    src={flavor.image}
+                    alt={`Alfajores de ${flavor.name} — Hannies`}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 900px"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2C1503]/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-center w-full px-4">
+                    <span className="inline-block bg-[#C8972A]/90 backdrop-blur-sm text-[#FFF8F0] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-1">
+                      Sabor {flavor.name}
+                    </span>
+                    <p className="text-[#F5E6C8] text-sm drop-shadow font-light">
+                      {flavor.tagline}
+                    </p>
+                  </div>
+                </div>
               )}
 
-              {/* Icono del producto */}
-              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-[#F5E6C8] mb-4 mt-2">
-                <i className={`${product.icon} text-3xl text-[#7B3F00] leading-none`} aria-hidden="true" />
+              {/* Cards de presentación */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {packs.map(({ packOption, price, savings }) => (
+                  <article
+                    key={packOption.id}
+                    id={`product-${flavor.id}-${packOption.id}`}
+                    className="relative bg-[#FFF8F0] border border-[#F5E6C8] rounded-3xl p-7 flex flex-col items-center text-center shadow-md card-lift reveal"
+                    aria-label={`${packOption.label} de alfajores de ${flavor.name}`}
+                  >
+                    {/* Badge especial */}
+                    {packOption.badge && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-gold text-[#2C1503] text-xs font-bold px-4 py-1 rounded-full shadow-sm whitespace-nowrap">
+                        {packOption.badge}
+                      </span>
+                    )}
+
+                    {/* Icono de la presentación */}
+                    <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-[#F5E6C8] mb-4 mt-2">
+                      <i
+                        className={`${packOption.flaticon} text-3xl text-[#7B3F00] leading-none`}
+                        aria-hidden="true"
+                      />
+                    </div>
+
+                    {/* Badge artesanal + sabor */}
+                    <span className="text-[10px] uppercase tracking-widest text-[#C8972A] font-semibold mb-1">
+                      Artesanal · {flavor.name}
+                    </span>
+
+                    {/* Título presentación */}
+                    <h3 className="text-2xl font-bold text-[#3D1C02] mb-1">
+                      {packOption.label}
+                    </h3>
+
+                    {/* Cantidad */}
+                    <p className="text-xs text-[#7B3F00]/60 font-medium mb-3">
+                      {packOption.qty === 1
+                        ? "1 alfajor"
+                        : `${packOption.qty} alfajores`}
+                    </p>
+
+                    {/* Descripción */}
+                    <p className="text-sm text-[#7B3F00]/80 mb-6 leading-relaxed">
+                      {packOption.description}
+                    </p>
+
+                    {/* Separador dorado */}
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#C8972A] to-transparent mb-6" />
+
+                    {/* Precio */}
+                    <p className="text-4xl font-extrabold text-[#3D1C02] mb-1 tracking-tight">
+                      ${price.toFixed(2)}
+                    </p>
+
+                    {/* Ahorro (solo si hay descuento) */}
+                    {savings > 0 && (
+                      <p className="text-xs text-green-600 font-semibold mb-5">
+                        Ahorras ${savings.toFixed(2)}
+                      </p>
+                    )}
+                    {savings === 0 && <div className="mb-5" />}
+
+                    {/* CTA */}
+                    <a
+                      id={`cta-${flavor.id}-${packOption.id}`}
+                      href={WA_LINK(
+                        `¡Hola! Vengo de la página web y quiero pedir ${
+                          packOption.qty === 1
+                            ? `1 alfajor de ${flavor.name}`
+                            : `la cajita x${packOption.qty} de alfajores de ${flavor.name}`
+                        } ($${price.toFixed(2)})`
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-2 bg-[#3D1C02] hover:bg-[#7B3F00] text-[#F5E6C8] font-semibold text-sm py-3 px-6 rounded-full transition-colors duration-200"
+                      aria-label={`Pedir ${packOption.label} de ${flavor.name} por WhatsApp`}
+                    >
+                      <i
+                        className="fi fi-brands-whatsapp text-base leading-none"
+                        aria-hidden="true"
+                      />
+                      Pedir esta opción
+                    </a>
+                  </article>
+                ))}
               </div>
+            </div>
+          );
+        })}
 
-              {/* Badge artesanal */}
-              <span className="text-[10px] uppercase tracking-widest text-[#C8972A] font-semibold mb-2">
-                Artesanal
-              </span>
+        {/* ── Próximamente: sabores futuros ── */}
+        {comingSoon.length > 0 && (
+          <div className="mt-6 reveal">
+            <h3 className="text-center text-lg font-semibold text-[#7B3F00]/60 mb-6 uppercase tracking-widest text-xs">
+              <i className="fi fi-rr-hourglass text-sm mr-2" aria-hidden="true" />
+              Próximamente
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {comingSoon.map((flavor) => (
+                <div
+                  key={flavor.id}
+                  className="relative flex flex-col items-center text-center rounded-2xl border-2 border-dashed border-[#C8972A]/30 p-6 opacity-60"
+                  aria-label={`Próximamente: alfajor de ${flavor.name}`}
+                >
+                  <div
+                    className="flex items-center justify-center w-12 h-12 rounded-xl mb-3"
+                    style={{ backgroundColor: `${flavor.accentColor}20` }}
+                  >
+                    <i
+                      className={`${flavor.icon} text-2xl leading-none`}
+                      style={{ color: flavor.accentColor }}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <p className="font-bold text-[#3D1C02] text-sm">{flavor.name}</p>
+                  <p className="text-xs text-[#7B3F00]/60 mt-1 leading-snug">
+                    {flavor.tagline}
+                  </p>
+                  <span className="mt-3 text-[10px] uppercase font-bold tracking-widest text-[#C8972A] border border-[#C8972A]/40 rounded-full px-3 py-0.5">
+                    Muy pronto
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-              {/* Título */}
-              <h3 className="text-2xl font-bold text-[#3D1C02] mb-1">{product.label}</h3>
-
-              {/* Cantidad */}
-              <p className="text-xs text-[#7B3F00]/60 font-medium mb-3">{product.qty}</p>
-
-              {/* Descripción */}
-              <p className="text-sm text-[#7B3F00]/80 mb-6 leading-relaxed">
-                {product.description}
-              </p>
-
-              {/* Separador decorativo */}
-              <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#C8972A] to-transparent mb-6" />
-
-              {/* Precio */}
-              <p className="text-4xl font-extrabold text-[#3D1C02] mb-6 tracking-tight">
-                {product.price}
-              </p>
-
-              {/* CTA individual */}
-              <a
-                id={`cta-${product.id}`}
-                href={WA_LINK(product.waMessage)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#3D1C02] hover:bg-[#7B3F00] text-[#F5E6C8] font-semibold text-sm py-3 px-6 rounded-full transition-colors duration-200"
-                aria-label={`Pedir ${product.label} por WhatsApp`}
-              >
-                <i className="fi fi-brands-whatsapp text-base leading-none" aria-hidden="true" />
-                Pedir esta opción
-              </a>
-            </article>
-          ))}
-        </div>
-
-        {/* Nota artesanal con icono de corazón */}
-        <div className="flex items-center justify-center gap-2 mt-10 reveal">
+        {/* Nota artesanal */}
+        <div className="flex items-center justify-center gap-2 mt-12 reveal">
           <i className="fi fi-rr-heart text-[#C8972A] text-sm leading-none" aria-hidden="true" />
           <p className="text-center text-xs text-[#7B3F00]/50">
             Elaborados por manos artesanales con ingredientes frescos · Sin conservantes
