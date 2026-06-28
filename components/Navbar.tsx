@@ -71,7 +71,7 @@ export default function Navbar() {
 
         {/* ── CTA desktop ── */}
         <a
-          href={WA_LINK("¡Hola! Vengo de la página web y quiero hacer un pedido de alfajores 🍪")}
+          href={WA_LINK("¡Hola! Vengo de la página web y quiero hacer un pedido de alfajores")}
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:inline-flex items-center gap-2 gradient-gold text-[#2C1503] font-bold text-sm px-5 py-2.5 rounded-full hover:scale-105 transition-transform duration-200"
@@ -116,7 +116,7 @@ export default function Navbar() {
           ))}
           <li className="w-full pt-2">
             <a
-              href={WA_LINK("¡Hola! Vengo de la página web y quiero hacer un pedido de alfajores 🍪")}
+              href={WA_LINK("¡Hola! Vengo de la página web y quiero hacer un pedido de alfajores")}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMenuOpen(false)}

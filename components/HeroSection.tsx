@@ -71,7 +71,7 @@ export default function HeroSection() {
         {/* CTA principal */}
         <a
           id="cta-hero-whatsapp"
-          href={WA_LINK("¡Hola! Vengo de la página web y quiero hacer un pedido de alfajores 🍪")}
+          href={WA_LINK("¡Hola! Vengo de la página web y quiero hacer un pedido de alfajores")}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-3 gradient-gold text-[#2C1503] font-bold text-lg px-8 py-4 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-transform duration-200"

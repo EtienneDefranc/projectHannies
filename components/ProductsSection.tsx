@@ -278,7 +278,7 @@ export default function ProductsSection() {
             <div className="flex-shrink-0">
               <a
                 id="cta-custom-box"
-                href="https://wa.me/593983345792?text=%C2%A1Hola!%20Vengo%20de%20la%20p%C3%A1gina%20web%20y%20quiero%20pedir%20una%20caja%20personalizada%20de%20alfajores%20%F0%9F%8D%AA%20%C2%BFMe%20puedes%20dar%20informaci%C3%B3n%3F"
+                href={WA_LINK("¡Hola! Vengo de la página web y quiero pedir una caja personalizada de alfajores. ¿Me puedes dar información?")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 gradient-gold text-[#2C1503] font-bold text-sm px-7 py-3.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 whitespace-nowrap"
