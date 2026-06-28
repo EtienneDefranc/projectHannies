@@ -68,7 +68,7 @@ export const ALFAJOR_FLAVORS: AlfajorFlavor[] = [
     tagline: "Relleno de dulce de leche cremoso, cubierto de azúcar impalpable",
     pricePerUnit: 1.00,       // Precio base: $1 por unidad
     available: true,
-    image: "/products-alfajores.png",
+    image: "/products-inspired.png",
     accentColor: "#C8972A",
     icon: "fi fi-rr-cookie",
   },
